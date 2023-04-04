@@ -3,6 +3,7 @@ package kibana
 import (
 	"context"
 	"fmt"
+	"github.com/openshift/elasticsearch-operator/internal/utils"
 
 	"github.com/ViaQ/logerr/v2/log"
 	. "github.com/onsi/ginkgo"
@@ -179,11 +180,7 @@ var _ = Describe("Reconciling", func() {
 				ObjectMeta: metav1.ObjectMeta{
 					Name:            console.ExternalLogLinkName,
 					ResourceVersion: "1",
-					Labels: map[string]string{
-						"component":     "support",
-						"logging-infra": "support",
-						"provider":      "openshift",
-					},
+					Labels:          utils.CommonLabels("Kibana", "support", "support"),
 				},
 				Spec: consolev1.ConsoleExternalLogLinkSpec{
 					Text:         "Show in Kibana",

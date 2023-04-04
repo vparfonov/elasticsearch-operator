@@ -263,10 +263,10 @@ func (clusterRequest *KibanaRequest) createOrUpdateKibanaDeployment(proxyConfig 
 	)
 
 	kibanaDeployment := NewDeployment(
-		"kibana",
+		constants.Kibana,
 		clusterRequest.cluster.Namespace,
-		"kibana",
-		"kibana",
+		constants.Kibana,
+		constants.Kibana,
 		clusterRequest.cluster.Spec.Replicas,
 		kibanaPodSpec,
 	)
@@ -425,15 +425,10 @@ func mutateDeployment(current *apps.Deployment, desired *apps.Deployment) {
 }
 
 func (clusterRequest *KibanaRequest) createOrUpdateKibanaService() error {
-	labels := map[string]string{
-		"logging-infra": "support",
-	}
+	labels := utils.CommonLabels("Kibana", "support", "support")
 
 	svc := service.New("kibana", clusterRequest.cluster.Namespace, labels).
-		WithSelector(map[string]string{
-			"component": "kibana",
-			"provider":  "openshift",
-		}).
+		WithSelector(utils.CommonLabels("Kibana", constants.Kibana, constants.Kibana)).
 		WithServicePorts(v1.ServicePort{
 			Port:       443,
 			TargetPort: intstr.FromString("oaproxy"),

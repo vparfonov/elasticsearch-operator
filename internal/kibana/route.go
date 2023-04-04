@@ -46,11 +46,7 @@ func (clusterRequest *KibanaRequest) createOrUpdateKibanaRoute() error {
 			"cause", err)
 	}
 
-	labels := map[string]string{
-		"component":     "support",
-		"logging-infra": "support",
-		"provider":      "openshift",
-	}
+	labels := utils.CommonLabels("Kibana", "support", "support")
 
 	rt := route.New("kibana", cluster.Namespace, "kibana", labels).
 		WithTLSConfig(&routev1.TLSConfig{
@@ -110,12 +106,7 @@ func (clusterRequest *KibanaRequest) createOrUpdateKibanaConsoleExternalLogLink(
 	if err != nil {
 		return kverrors.Wrap(err, "failed to get route URL", "cluster", clusterRequest.cluster.Name)
 	}
-
-	labels := map[string]string{
-		"component":     "support",
-		"logging-infra": "support",
-		"provider":      "openshift",
-	}
+	labels := utils.CommonLabels("Kibana", "support", "support")
 
 	consoleExternalLogLink := console.NewConsoleExternalLogLink(
 		"Show in Kibana",

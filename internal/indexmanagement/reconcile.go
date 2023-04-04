@@ -55,11 +55,8 @@ var (
 	// fullExecMode octal 0777
 	fullExecMode int32 = 0o777
 
-	imLabels = map[string]string{
-		"provider":      "openshift",
-		"component":     "indexManagement",
-		"logging-infra": "indexManagement",
-	}
+	imLabels = utils.CommonLabels("indexManagement",
+		"indexManagement", "indexManagement")
 )
 
 type rolloverConditions struct {

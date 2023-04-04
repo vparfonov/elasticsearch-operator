@@ -5,6 +5,8 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"encoding/json"
+	"github.com/openshift/elasticsearch-operator/internal/constants"
+	"github.com/openshift/elasticsearch-operator/version"
 	"io/ioutil"
 	"os"
 	"path"
@@ -324,5 +326,19 @@ func ContainerSecurityContext() *corev1.SecurityContext {
 func PodSecurityContext() corev1.PodSecurityContext {
 	return corev1.PodSecurityContext{
 		RunAsNonRoot: pointer.Bool(true),
+	}
+}
+
+func CommonLabels(appName, component, loggingComponent string) map[string]string {
+	return map[string]string{
+		"provider":                  "openshift",
+		"component":                 component,
+		"logging-infra":             loggingComponent,
+		constants.LabelK8sName:      appName,
+		constants.LabelK8sInstance:  "instance",
+		constants.LabelK8sComponent: component,
+		constants.LabelK8sPartOf:    constants.RedhatClusterLogging,
+		constants.LabelK8sManagedBy: constants.RedhatElasticsearchOperator,
+		constants.LabelK8sVersion:   version.Version,
 	}
 }
