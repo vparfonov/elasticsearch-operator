@@ -26,6 +26,8 @@ const (
 	LinuxValue        = "linux"
 )
 
+var packagedCuratorImage = LookupEnvWithDefault("RELATED_IMAGE_CURATOR", constants.CuratorDefaultImage)
+
 // EnsureLinuxNodeSelector takes given selector map and returns a selector map with linux node selector added into it.
 // If there is already a node type selector and is different from "linux" then it is overridden.
 // See https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#interlude-built-in-node-labels
@@ -327,6 +329,10 @@ func PodSecurityContext() corev1.PodSecurityContext {
 	return corev1.PodSecurityContext{
 		RunAsNonRoot: pointer.Bool(true),
 	}
+}
+
+func PackagedCuratorImage() string {
+	return packagedCuratorImage
 }
 
 func CommonLabels(appName, component, loggingComponent string) map[string]string {

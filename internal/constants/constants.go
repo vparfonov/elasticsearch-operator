@@ -1,7 +1,5 @@
 package constants
 
-import "github.com/openshift/elasticsearch-operator/internal/utils"
-
 const (
 	Kibana                      = "kibana"
 	ProxyName                   = "cluster"
@@ -45,7 +43,6 @@ const (
 
 var (
 	ReconcileForGlobalProxyList = []string{KibanaTrustedCAName}
-	packagedCuratorImage        = utils.LookupEnvWithDefault("RELATED_IMAGE_CURATOR", CuratorDefaultImage)
 	ExpectedSecretKeys          = []string{
 		"admin-ca",
 		"admin-cert",
@@ -56,7 +53,3 @@ var (
 		"logging-es.key",
 	}
 )
-
-func PackagedCuratorImage() string {
-	return packagedCuratorImage
-}
