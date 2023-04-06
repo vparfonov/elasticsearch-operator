@@ -338,24 +338,26 @@ func newEnvVars(nodeName, clusterName, instanceRAM string, roleMap map[api.Elast
 
 // TODO: add isChanged check for labels and label selector
 func newLabels(clusterName, nodeName string, roleMap map[api.ElasticsearchNodeRole]bool) map[string]string {
-	return map[string]string{
-		"es-node-client": strconv.FormatBool(roleMap[api.ElasticsearchRoleClient]),
-		"es-node-data":   strconv.FormatBool(roleMap[api.ElasticsearchRoleData]),
-		"es-node-master": strconv.FormatBool(roleMap[api.ElasticsearchRoleMaster]),
-		"cluster-name":   clusterName,
-		"component":      "elasticsearch",
-		"node-name":      nodeName,
-	}
+	labels := utils.CommonLabels("Elasticsearch", constants.Elasticsearch, constants.Elasticsearch)
+	labels["es-node-client"] = strconv.FormatBool(roleMap[api.ElasticsearchRoleClient])
+	labels["es-node-data"] = strconv.FormatBool(roleMap[api.ElasticsearchRoleData])
+	labels["es-node-master"] = strconv.FormatBool(roleMap[api.ElasticsearchRoleMaster])
+	labels["cluster-name"] = clusterName
+	labels["component"] = "elasticsearch"
+	labels["node-name"] = nodeName
+
+	return labels
 }
 
 func newLabelSelector(clusterName, nodeName string, roleMap map[api.ElasticsearchNodeRole]bool) map[string]string {
-	return map[string]string{
-		"es-node-client": strconv.FormatBool(roleMap[api.ElasticsearchRoleClient]),
-		"es-node-data":   strconv.FormatBool(roleMap[api.ElasticsearchRoleData]),
-		"es-node-master": strconv.FormatBool(roleMap[api.ElasticsearchRoleMaster]),
-		"cluster-name":   clusterName,
-		"node-name":      nodeName,
-	}
+	labels := utils.CommonLabels("Elasticsearch", constants.Elasticsearch, constants.Elasticsearch)
+	labels["es-node-client"] = strconv.FormatBool(roleMap[api.ElasticsearchRoleClient])
+	labels["es-node-data"] = strconv.FormatBool(roleMap[api.ElasticsearchRoleData])
+	labels["es-node-master"] = strconv.FormatBool(roleMap[api.ElasticsearchRoleMaster])
+	labels["cluster-name"] = clusterName
+	labels["node-name"] = nodeName
+
+	return labels
 }
 
 func newPodTemplateSpec(ctx context.Context, logger logr.Logger, nodeName, clusterName, namespace string, node api.ElasticsearchNode, commonSpec api.ElasticsearchNodeSpec, labels map[string]string, roleMap map[api.ElasticsearchNodeRole]bool, client client.Client, logConfig LogConfig) v1.PodTemplateSpec {

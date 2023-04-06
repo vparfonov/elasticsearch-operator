@@ -2,6 +2,7 @@ package constants
 
 const (
 	Kibana                      = "kibana"
+	Elasticsearch               = "elasticsearch"
 	ProxyName                   = "cluster"
 	OAuthName                   = "cluster"
 	TrustedCABundleKey          = "ca-bundle.crt"
